@@ -1,0 +1,99 @@
+Server & Authentication SetUp
+===========================
+. create directory server
+.npm init
+.npm install --save express mongoose morgan body-parser
+..gitignore file and place node_modules in
+.npm install --save nodemon
+.brew update
+.brew install mongodb (if is not installed)
+.mkdir -p /data/db
+.sudo chown -R $USER /data/db
+=> then start it by running mongod
+.npm install --save bcrypt-nodejs : for password encryption
+.npm install --save jwt-simple
+.npm install --save passport passport-jwt
+.npm install --save passport-local
+
+
+
+
+
+
+
+Details:
+--------
+-Morgan: is a login frameworks, and is used for debugging
+-bodyParser: is used to parse incoming request in json and will attempt to do so no matter what a request is.
+
+Tech Stack
+==========
+*Low-level request handling
+----------------------------
+.HTTP Module: handle http request
+
+*Routing, server logic
+----------------------
+.Express: Parse response + routing
+.Morgan: Logging
+.BodyParser: Help parse incoming HTTP requests
+
+*Database
+----------
+.MongoDB: Storing Data
+.Mongoose: Working with MongoDB
+
+*Authentication
+----------------
+.Bcrypt-Nodejs: Storing a users password safely
+ => Salt + plain Password = Salt + Hashed Password
+ => .Comparing a password(Sign in)
+ * Salt + Hashed Password
+ * Salt + Submitted Password = Hashed Password
+ * if  these hashes are equal, must be correct : Salt + Hashed Password = Hashed Password
+.Passport-JWT: Authenticating users with a JWT
+.Passport-Local: Authenticating users with a username / password
+.Passport Js: Authenticating users
+
+
+**Models: User model has an email and password.
+
+.MongoDB SetUp.
+---------------
+=> https://www.mongodb.org
+=> https://robomongo.org
+
+JWT Overview
+-------------
+JWT = JSON WEB TOKEN
+library is jwt-simple : npm install --save jwt-simple
+link: https://jwt.io
+When signing up or signing in, give a token in exchange for an id
+=> User ID + our secret string = JSON Web Token
+
+In the future, when a user makes an authenticated request they should include their JWT
+=> JSON Web Token + Our Secret String = User id
+
+Passport js
+-----------
+Passport is an authentication library for node and express is usually used for cookie based authentication
+*incoming Request =>Router. => Logged in? => Comments Controller ========> Response
+                            .===============> Authentication Controller ==> Response
+                            . => Logged in? => Posts Controller ==========> Response
+The purpose of passport is to answer these questions is our users logged in or not?? before they hit these controllers
+
+Passport Strategy
+-----------------
+Incoming Request ======> Passport ========> Router Handler
+                                  ========> Passport Strategy #1 ===> Verify user with a JWT
+                                  ========> Passport Strategy #2 ===> Verify user with a username and password
+
+Auth flows
+----------
+Signing Up     ========> Verify Email is not in use            =======> Token
+Signing In     ========> Verify Email/ Password                =======> Token
+Auth'd Request =========> Verify Token (jwt & local strategy   =======> Resources Access
+
+
+
+
